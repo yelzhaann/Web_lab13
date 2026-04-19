@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Кіру{% endblock %}
+
+{% block content %}
+<style>
+    h2 { margin-bottom: 1.5rem; color: #1a73e8; }
+    .form-group { margin-bottom: 1.2rem; }
+    label { display: block; font-weight: 600; margin-bottom: 4px; font-size: .9rem; }
+    input[type=text], input[type=password] {
+        width: 100%; padding: 10px 14px; border: 1px solid #ccc;
+        border-radius: 6px; font-size: 1rem; transition: border .2s;
+    }
+    input:focus { outline: none; border-color: #1a73e8; }
+    .btn { background: #1a73e8; color: #fff; border: none; padding: 11px 28px;
+           border-radius: 6px; font-size: 1rem; cursor: pointer; width: 100%; }
+    .btn:hover { background: #1558b0; }
+    .register-link { text-align: center; margin-top: 1rem; font-size: .9rem; }
+    .register-link a { color: #1a73e8; }
+</style>
+
+<h2>🔑 Жүйеге кіру</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="id_username">Пайдаланушы аты</label>
+        <input type="text" id="id_username" name="username" autofocus required>
+    </div>
+
+    <div class="form-group">
+        <label for="id_password">Пароль</label>
+        <input type="password" id="id_password" name="password" required>
+    </div>
+
+    <button type="submit" class="btn">Кіру</button>
+</form>
+
+<p class="register-link">
+    Аккаунтыңыз жоқ па? <a href="{% url 'register' %}">Тіркелу</a>
+</p>
+{% endblock %}

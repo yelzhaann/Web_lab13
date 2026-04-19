@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Тіркелу{% endblock %}
+
+{% block content %}
+<style>
+    h2 { margin-bottom: 1.5rem; color: #1a73e8; }
+    .form-group { margin-bottom: 1.2rem; }
+    label { display: block; font-weight: 600; margin-bottom: 4px; font-size: .9rem; }
+    input[type=text], input[type=password] {
+        width: 100%; padding: 10px 14px; border: 1px solid #ccc;
+        border-radius: 6px; font-size: 1rem; transition: border .2s;
+    }
+    input:focus { outline: none; border-color: #1a73e8; }
+    .helptext { font-size: .8rem; color: #888; margin-top: 4px; }
+    .errorlist { list-style: none; color: #dc3545; font-size: .85rem; margin-top: 4px; }
+    .btn { background: #1a73e8; color: #fff; border: none; padding: 11px 28px;
+           border-radius: 6px; font-size: 1rem; cursor: pointer; width: 100%; }
+    .btn:hover { background: #1558b0; }
+    .login-link { text-align: center; margin-top: 1rem; font-size: .9rem; }
+    .login-link a { color: #1a73e8; }
+</style>
+
+<h2>📝 Тіркелу</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+                <p class="helptext">{{ field.help_text }}</p>
+            {% endif %}
+            {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn">Тіркелу</button>
+</form>
+
+<p class="login-link">
+    Аккаунтыңыз бар ма? <a href="{% url 'login' %}">Кіру</a>
+</p>
+{% endblock %}

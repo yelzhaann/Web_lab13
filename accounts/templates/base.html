@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Менің сайтым{% endblock %}</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; }
+
+        nav {
+            background: #1a73e8;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+        nav .brand { color: #fff; font-size: 1.2rem; font-weight: 700; text-decoration: none; }
+        nav .nav-links { display: flex; gap: 1rem; align-items: center; }
+        nav a { color: #fff; text-decoration: none; font-size: 0.95rem; padding: 6px 14px;
+                border-radius: 4px; transition: background .2s; }
+        nav a:hover { background: rgba(255,255,255,.2); }
+        nav .btn-logout {
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.4);
+            color: #fff; cursor: pointer; font-size: 0.95rem;
+            padding: 6px 14px; border-radius: 4px; transition: background .2s;
+        }
+        nav .btn-logout:hover { background: rgba(255,255,255,.3); }
+        nav .username { color: #d2e8ff; font-size: 0.9rem; }
+
+        .messages { list-style: none; padding: 0; }
+        .messages li {
+            padding: 12px 20px; margin: 10px auto; max-width: 800px;
+            border-radius: 6px; font-size: 0.95rem;
+        }
+        .messages .success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .messages .error   { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .messages .info    { background: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
+
+        main { max-width: 800px; margin: 2rem auto; background: #fff;
+               padding: 2rem; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a class="brand" href="/">🌐 Менің сайтым</a>
+    <div class="nav-links">
+        <a href="/">Басты бет</a>
+
+        {% if user.is_authenticated %}
+            <span class="username">👤 {{ user.username }}</span>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-logout">Шығу</button>
+            </form>
+
+        {% else %}
+            <a href="{% url 'login' %}">Кіру</a>
+            <a href="{% url 'register' %}">Тіркелу</a>
+        {% endif %}
+    </div>
+</nav>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>
